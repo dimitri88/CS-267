@@ -16,15 +16,16 @@ def sat_solver(cnfs):
                     dict[var[-1]] = index
                     index += 1
             clause[i] = dict[var]
-    print(sat_helper(cnfs,1, index, []))
+    res = []        
+    sat_helper(cnfs,1, index, [], res)
+    print(res)
 
-def sat_helper(cnfs, i, length, path) :
+def sat_helper(cnfs, i, length, path,res) :
     if len(cnfs) == 0 :
-        print(path)
-        return True
+        res.append(path)
+        return
     if i > length :
-        return False
-    
+        return
     false_list = deepcopy(cnfs)
     true_list = deepcopy(cnfs)
     
@@ -50,10 +51,19 @@ def sat_helper(cnfs, i, length, path) :
     f_path.append(False)
     t_path = list(path)
     t_path.append(True)
-    return sat_helper(false_list, i+1, length,f_path) or sat_helper(true_list, i+1, length,t_path)
+    sat_helper(false_list, i+1, length,f_path,res)
+    sat_helper(true_list, i+1, length,t_path,res)
 
-var = [['x','y','z'],['x','y','-z'],['x','-y','-z'],['x','-y','z'],['-x','y','z'],['-x','y','-z'],['-x','-y','z'],['-x','-y','-z']]
-sat_solver(var)
+
+def main():
+    #var = [['x','y','z'],['x','y','-z'],['x','-y','-z'],['x','-y','z'],['-x','y','z'],['-x','y','-z'],['-x','-y','z'],['-x','-y','-z']]
+    var = [['a','b','-c'],['a','-d']]
+    sat_solver(var)
+if __name__ == "__main__": 
+    main()
+
+
+
 
             
 
