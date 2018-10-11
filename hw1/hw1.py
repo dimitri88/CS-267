@@ -1,4 +1,5 @@
 from copy import copy, deepcopy
+import timeit
 
 def sat_solver(cnfs):
     index = 1
@@ -33,6 +34,8 @@ def sat_helper(cnfs, i, length, path,res) :
     for clause in list(false_list):
         if i in clause:
             clause.remove(i)
+        if len(clause) == 0:
+            return
         if -1 * i in clause:
             del false_list[index]
         else:
@@ -42,6 +45,8 @@ def sat_helper(cnfs, i, length, path,res) :
     for clause in list(true_list):
         if -1 * 1 in clause:
             clause.remove(i*-1)
+        if len(clause) == 0:
+            return
         if i in clause:
             del true_list[index]
         else:
@@ -56,9 +61,14 @@ def sat_helper(cnfs, i, length, path,res) :
 
 
 def main():
-    #var = [['x','y','z'],['x','y','-z'],['x','-y','-z'],['x','-y','z'],['-x','y','z'],['-x','y','-z'],['-x','-y','z'],['-x','-y','-z']]
-    var = [['a','b','-c'],['a','-d']]
+    var = [['x','y','z'],['x','y','-z'],['x','-y','-z'],['x','-y','z'],['-x','y','z'],['-x','y','-z'],['-x','-y','z'],['-x','-y','-z']]
+    # var = [['a','b','-c'],['a','-d']]
+    start = timeit.default_timer()
     sat_solver(var)
+    stop = timeit.default_timer()
+
+    print('Time: ', stop - start)  
+    
 if __name__ == "__main__": 
     main()
 
